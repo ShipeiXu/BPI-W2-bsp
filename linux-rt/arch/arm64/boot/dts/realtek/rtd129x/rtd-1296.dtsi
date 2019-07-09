@@ -380,51 +380,23 @@
 			<0x98000000 0x20000>, /* CLK SYS */
 			<0x9803FF00 0x100>; /* SATA Wrapper */
 		interrupts = <0 24 4>;
-		offload_enable = <0>; /* 0:disable, 1:enable HW NAT offload */
-		rgmii_voltage = <1>; /* 1:1.8V, 2: 2.5V, 3:3.3V */
-		rgmii_enable = <1>; /* 0:disable, 1:enable */
-		mac0_enable = <1>; /* 0:disable, 1:enable */
-		mac0_mode = <0>; /* 0:RGMII, 1:SGMII */
-		mac5_conn_to = <0>; /* 0:PHY, 1:MAC */
-		mac0_phy_id = <2>; /* PHY ID 2 for RGMII, 3 for SGMII */
-		mac4_phy_id = <4>;
-		mac5_phy_id = <1>;
-
-		clocks = <&cc CC_PLL_DDSA>,
-			<&clk_en_1 CLK_EN_SATA_0>,
-			<&clk_en_1 CLK_EN_SATA_ALIVE_0>,
-			<&clk_en_2 CLK_EN_SATA_1>,
-			<&clk_en_2 CLK_EN_SATA_ALIVE_1>,
-			<&cc CC_PLL_DDSB>,
-			<&iclk_en CLK_EN_ETN_250M>,
+		rtl-config = <1>;
+		mac-version = <42>; /* RTL_GIGA_MAC_VER_42 */
+		rtl-features = <2>; /* BIT(2) GMii */
+		output-mode = <0>; /* 0:embedded PHY, 1:RGMII to MAC, 2:RGMII to PHY */
+		rgmii-voltage = <1>; /* 1:1.8V, 2: 2.5V, 3:3.3V */
+		rgmii-tx-delay = <0>; /* 0: 0ns, 1: 2ns */
+		rgmii-rx-delay = <0>; /* 0: 0ns, 1: 2ns */
+		ext-phy-id = <1>; /* 0 ~ 31, only valid when output-mode = 2 */
+		clocks = <&iclk_en CLK_EN_ETN_250M>,
 			<&iclk_en CLK_EN_ETN_SYS>;
-		clock-names = "pll_ddsa",
-			"sata_0",
-			"sata_alive_0",
-			"sata_1",
-			"sata_alive_1",
-			"pll_ddab",
-			"nat",
-			"etn_250m",
+		clock-names = "etn_250m",
 			"etn_sys";
-		resets = <&rst1 RSTN_SATA_0>,
-			<&rst1 RSTN_SATA_PHY_0>,
-			<&rst1 RSTN_SATA_PHY_POW_0>,
-			<&rst1 SATA_FUNC_EXIST_0>,
-			<&rst2 RSTN_SDS_PHY>,
-			<&rst1 RSTN_NAT>,
-			<&irst IRSTN_GMAC>,
+		resets = <&irst IRSTN_GMAC>,
 			<&irst IRSTN_GPHY>;
-		reset-names = "sata_0",
-			"sata_phy_0",
-			"sata_phy_pow_0",
-			"sata_func_exist_0",
-			"rstn_sds_phy",
-			"nat",
-			"gmac",
+		reset-names = "gmac",
 			"gphy";
-		power-domains = <&pd0 PD_SRAM_NAT>;
-		status = "disabled";
+		status = "okay";
 	};
 
 	timer0@9801B000 {
